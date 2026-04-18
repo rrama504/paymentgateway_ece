@@ -380,9 +380,16 @@ class FirestoreStorage(BaseStorage):
         self.seed_storage.ensure_seed_data()
         self.root_doc.set({"namespace": self.root_doc.id}, merge=True)
 
+        seed_config = self.seed_storage.get_config()
         config_snapshot = self.config_doc.get()
         if not config_snapshot.exists:
-            self.config_doc.set(self.seed_storage.get_config())
+            self.config_doc.set(seed_config)
+        else:
+            current_config = config_snapshot.to_dict() or {}
+            merged_config = {**current_config, **seed_config}
+            if merged_config != current_config:
+                # Keep Firestore config aligned with local config.json values on startup.
+                self.config_doc.set(merged_config)
 
         if not self._has_documents(self.tokens_collection):
             tokens = self.seed_storage.list_tokens() or build_default_tokens()
