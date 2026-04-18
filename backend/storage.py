@@ -11,7 +11,7 @@ from typing import Any
 
 
 DEFAULT_CONFIG = {
-    "eventName": "IV ECE 2026",
+    "eventName": "IV ECE 2026 HYD",
     "ticketPrice": 3000,
     "upiId": "yourupi@bank",
     "payeeName": "Event Organizer",
@@ -228,7 +228,7 @@ class LocalStorage(BaseStorage):
 
             for index, token in enumerate(tokens):
                 lock_time = token.get("lock_time")
-                if token.get("status") != "locked" or not isinstance(lock_time, (int, float)):
+                if token.get("status") != "locked" or token.get("utr") or not isinstance(lock_time, (int, float)):
                     continue
                 if current_time - lock_time <= lock_duration_seconds:
                     continue
@@ -437,7 +437,7 @@ class FirestoreStorage(BaseStorage):
         for doc in self.tokens_collection.where("status", "==", "locked").stream():
             token = normalize_token(doc.to_dict())
             lock_time = token.get("lock_time")
-            if not isinstance(lock_time, (int, float)):
+            if token.get("utr") or not isinstance(lock_time, (int, float)):
                 continue
             if current_time - lock_time <= lock_duration_seconds:
                 continue
