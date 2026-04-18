@@ -227,13 +227,27 @@ class LocalStorage(BaseStorage):
             changed = 0
 
             for index, token in enumerate(tokens):
+                if token.get("status") != "locked":
+                    continue
+                
+                utr = token.get("utr")
+                # A token should only be kept locked if it has a non-empty UTR
+                has_utr = utr and str(utr).strip()
+                
+                if has_utr:
+                    continue
+                    
                 lock_time = token.get("lock_time")
-                if token.get("status") != "locked" or token.get("utr") or not isinstance(lock_time, (int, float)):
+                if not isinstance(lock_time, (int, float)):
+                    # If lock_time is missing or invalid, reset it to be safe
+                    tokens[index] = reset_token(token)
+                    changed += 1
                     continue
-                if current_time - lock_time <= lock_duration_seconds:
-                    continue
-                tokens[index] = reset_token(token)
-                changed += 1
+
+                if current_time - lock_time > lock_duration_seconds:
+                    print(f"DEBUG: Releasing expired token {token.get('token_id')} (expired by {int(current_time - lock_time - lock_duration_seconds)}s)")
+                    tokens[index] = reset_token(token)
+                    changed += 1
 
             if changed:
                 self._write_json(self.tokens_path, tokens)
@@ -436,19 +450,30 @@ class FirestoreStorage(BaseStorage):
 
         for doc in self.tokens_collection.where("status", "==", "locked").stream():
             token = normalize_token(doc.to_dict())
+            
+            utr = token.get("utr")
+            has_utr = utr and str(utr).strip()
+            
+            if has_utr:
+                continue
+                
             lock_time = token.get("lock_time")
-            if token.get("utr") or not isinstance(lock_time, (int, float)):
-                continue
-            if current_time - lock_time <= lock_duration_seconds:
-                continue
+            is_expired = False
+            
+            if not isinstance(lock_time, (int, float)):
+                is_expired = True
+            elif current_time - lock_time > lock_duration_seconds:
+                is_expired = True
+                print(f"DEBUG: Firestore Releasing expired token {token.get('token_id')}")
 
-            reset = reset_token(token)
-            batch.set(doc.reference, reset)
-            batch.set(
-                self.registrations_collection.document(self._registration_doc_id(reset["token_id"])),
-                self._registration_payload(reset),
-            )
-            changed += 1
+            if is_expired:
+                reset = reset_token(token)
+                batch.set(doc.reference, reset)
+                batch.set(
+                    self.registrations_collection.document(self._registration_doc_id(reset["token_id"])),
+                    self._registration_payload(reset),
+                )
+                changed += 1
 
         if changed:
             batch.commit()
