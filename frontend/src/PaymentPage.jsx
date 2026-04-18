@@ -89,6 +89,8 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
   const progressColor = progress > 50 ? "#22c55e" : progress > 20 ? "#f59e0b" : "#ef4444";
 
   const upiLink = `upi://pay?pa=${config.upiId}&pn=${encodeURIComponent(config.payeeName)}&am=${config.ticketPrice}&tn=${tokenId}`;
+  const tokenNumber = Number.parseInt((tokenId || "").split("-").pop() || "", 10);
+  const qrImageSrc = Number.isFinite(tokenNumber) && tokenNumber > 20 ? "/QR2.jpeg" : "/QR.jpeg";
 
   if (expired) {
     return (
@@ -153,7 +155,7 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
         <div className="upi-section">
           <p className="upi-title">Pay <strong>₹{config.ticketPrice}</strong> via UPI QR Code</p>
           <div className="qr-box" style={{ background: "white", padding: "12px", borderRadius: "12px", display: "inline-block", margin: "1rem 0", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
-            <img src="/QR.jpeg" alt="Payment QR" style={{ width: "180px", height: "180px", objectFit: "contain" }} />
+            <img src={qrImageSrc} alt="Payment QR" style={{ width: "180px", height: "180px", objectFit: "contain" }} />
           </div>
           <div className="upi-details">
             <span>UPI ID: <strong style={{ userSelect: "all" }}>{config.upiId}</strong></span>
