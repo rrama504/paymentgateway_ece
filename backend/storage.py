@@ -13,7 +13,7 @@ from typing import Any
 DEFAULT_CONFIG = {
     "eventName": "IV ECE 2026 HYD",
     "ticketPrice": 3000,
-    "upiId": "yourupi@bank",
+    "upiId": "roouff@ptyes",
     "payeeName": "Event Organizer",
     "lockDurationSeconds": 300,
 }
