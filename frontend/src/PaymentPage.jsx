@@ -153,7 +153,7 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
         <div className="upi-section">
           <p className="upi-title">Pay <strong>₹{config.ticketPrice}</strong> via UPI QR Code</p>
           <div className="qr-box" style={{ background: "white", padding: "12px", borderRadius: "12px", display: "inline-block", margin: "1rem 0", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
-            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`} alt="Payment QR" />
+            <img src="/QR.jpeg" alt="Payment QR" style={{ width: "180px", height: "180px", objectFit: "contain" }} />
           </div>
           <div className="upi-details">
             <span>UPI ID: <strong style={{ userSelect: "all" }}>{config.upiId}</strong></span>
