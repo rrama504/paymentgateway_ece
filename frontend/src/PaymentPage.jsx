@@ -88,9 +88,12 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
   const progress = (secondsLeft / config.lockDurationSeconds) * 100;
   const progressColor = progress > 50 ? "#22c55e" : progress > 20 ? "#f59e0b" : "#ef4444";
 
-  const upiLink = `upi://pay?pa=${config.upiId}&pn=${encodeURIComponent(config.payeeName)}&am=${config.ticketPrice}&tn=${tokenId}`;
   const tokenNumber = Number.parseInt((tokenId || "").split("-").pop() || "", 10);
   const qrImageSrc = Number.isFinite(tokenNumber) && tokenNumber > 20 ? "/QR2.jpeg" : "/QR.jpeg";
+  const effectiveUpiId = Number.isFinite(tokenNumber) && tokenNumber > 20
+    ? "arjun.kondala2005@okaxis"
+    : config.upiId;
+  const upiLink = `upi://pay?pa=${effectiveUpiId}&pn=${encodeURIComponent(config.payeeName)}&am=${config.ticketPrice}&tn=${tokenId}`;
 
   if (expired) {
     return (
@@ -158,7 +161,7 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
             <img src={qrImageSrc} alt="Payment QR" style={{ width: "180px", height: "180px", objectFit: "contain" }} />
           </div>
           <div className="upi-details">
-            <span>UPI ID: <strong style={{ userSelect: "all" }}>{config.upiId}</strong></span>
+            <span>UPI ID: <strong style={{ userSelect: "all" }}>{effectiveUpiId}</strong></span>
             <span>Ref: <strong>{tokenId}</strong></span>
           </div>
         </div>
