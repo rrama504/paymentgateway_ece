@@ -115,7 +115,19 @@ export default function RegistrationForm({ onRegistered, onAdmin }) {
         {/* Header */}
         <div className="reg-header">
           <div className="badge">🎟️ Event Registration</div>
-          <h1 className="reg-title">{config.eventName} <span style={{ fontSize: "0.6em", verticalAlign: "middle", opacity: 0.9, color: "#a78bfa", WebkitTextFillColor: "#a78bfa", marginLeft: "8px" }}>📍 HYD</span></h1>
+          <h1 className="reg-title">{config.eventName}</h1>
+          <div style={{ 
+            color: "#f59e0b", 
+            fontSize: "1.1rem", 
+            fontWeight: "700", 
+            marginTop: "0.5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "5px"
+          }}>
+            📍 HYD
+          </div>
           <p className="reg-subtitle">Fill in your details to secure a seat</p>
         </div>
 
