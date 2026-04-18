@@ -89,8 +89,8 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
   const progressColor = progress > 50 ? "#22c55e" : progress > 20 ? "#f59e0b" : "#ef4444";
 
   const tokenNumber = Number.parseInt((tokenId || "").split("-").pop() || "", 10);
-  const qrImageSrc = Number.isFinite(tokenNumber) && tokenNumber > 20 ? "/QR2.jpeg" : "/QR.jpeg";
-  const effectiveUpiId = Number.isFinite(tokenNumber) && tokenNumber > 20
+  const qrImageSrc = Number.isFinite(tokenNumber) && tokenNumber > 25 ? "/QR2.jpeg" : "/QR.jpeg";
+  const effectiveUpiId = Number.isFinite(tokenNumber) && tokenNumber > 25
     ? "arjun.kondala2005@okaxis"
     : config.upiId;
   const upiLink = `upi://pay?pa=${effectiveUpiId}&pn=${encodeURIComponent(config.payeeName)}&am=${config.ticketPrice}&tn=${tokenId}`;

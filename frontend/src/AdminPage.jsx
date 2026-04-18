@@ -4,6 +4,7 @@ import "./AdminPage.css";
 const STATUS_COLOR = {
   available: "#94a3b8",
   locked:    "#f59e0b",
+  pending:  "#f97316",
   confirmed: "#10b981",
 };
 
@@ -172,7 +173,7 @@ export default function AdminPage({ onBack }) {
                     <td className="td-utr">{token.utr ? token.utr : <span className="disabled-text">—</span>}</td>
                     <td>
                       <div className="action-buttons">
-                        {token.status === "locked" && (
+                        {(token.status === "locked" || token.status === "pending") && (
                           <>
                             <button 
                               className="confirm-btn" 

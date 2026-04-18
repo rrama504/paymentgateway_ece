@@ -286,7 +286,8 @@ class LocalStorage(BaseStorage):
                 raise NotFoundError("Token not found")
 
             token["utr"] = utr
-            token["status"] = "locked"
+            # Mark as pending so it stays in admin queue until manual action.
+            token["status"] = "pending"
             self._write_json(self.tokens_path, tokens)
             return normalize_token(token)
 
@@ -325,6 +326,7 @@ class LocalStorage(BaseStorage):
             "token_status_counts": {
                 "available": sum(1 for token in tokens if token.get("status") == "available"),
                 "locked": sum(1 for token in tokens if token.get("status") == "locked"),
+                "pending": sum(1 for token in tokens if token.get("status") == "pending"),
                 "confirmed": sum(1 for token in tokens if token.get("status") == "confirmed"),
             },
         }
@@ -532,7 +534,8 @@ class FirestoreStorage(BaseStorage):
 
         token = normalize_token(snapshot.to_dict())
         token["utr"] = utr
-        token["status"] = "locked"
+        # Mark as pending so it stays in admin queue until manual action.
+        token["status"] = "pending"
         token_ref.set(token)
         self.registrations_collection.document(self._registration_doc_id(token["token_id"])).set(
             self._registration_payload(token)
@@ -579,6 +582,7 @@ class FirestoreStorage(BaseStorage):
             "token_status_counts": {
                 "available": sum(1 for token in tokens if token.get("status") == "available"),
                 "locked": sum(1 for token in tokens if token.get("status") == "locked"),
+                "pending": sum(1 for token in tokens if token.get("status") == "pending"),
                 "confirmed": sum(1 for token in tokens if token.get("status") == "confirmed"),
             },
         }
