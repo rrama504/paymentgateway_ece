@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0b0e1a;
+  --surface:   #131729;
+  --surface2:  #1c2138;
+  --border:    rgba(255,255,255,0.07);
+  --accent:    #6366f1;
+  --accent2:   #818cf8;
+  --text:      #e2e8f0;
+  --text-muted:#94a3b8;
+  --success:   #22c55e;
+  --danger:    #ef4444;
+  --warning:   #f59e0b;
+  --radius:    18px;
+  --shadow:    0 24px 60px rgba(0,0,0,0.5);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+#root { min-height: 100vh; }
+
+.app-root { min-height: 100vh; }
+
+/* ── Shared blobs ─────────────────────────────────────────── */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob-1 {
+  width: 600px; height: 600px;
+  background: var(--accent);
+  top: -200px; left: -150px;
+}
+.blob-2 {
+  width: 500px; height: 500px;
+  background: #06b6d4;
+  bottom: -150px; right: -100px;
+}
+
+/* ── Shared badge ─────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  background: rgba(99,102,241,0.18);
+  color: var(--accent2);
+  border: 1px solid rgba(99,102,241,0.35);
+  border-radius: 50px;
+  padding: 5px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* ── Shared spinner ───────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Shared alert ─────────────────────────────────────────── */
+.alert-error {
+  background: rgba(239,68,68,0.12);
+  color: #fca5a5;
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}

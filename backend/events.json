@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "title": "Tech Innovation Summit 2024",
+        "date": "2024-10-15",
+        "location": "San Francisco, CA",
+        "capacity": 100,
+        "booked": 45,
+        "description": "A gathering of the brightest minds in technology."
+    },
+    {
+        "id": 2,
+        "title": "Global Music Festival",
+        "date": "2024-11-20",
+        "location": "London, UK",
+        "capacity": 500,
+        "booked": 490,
+        "description": "Celebrating diversity through the power of music."
+    },
+    {
+        "id": 3,
+        "title": "Future of Payments Webinar",
+        "date": "2024-09-05",
+        "location": "Online",
+        "capacity": 1000,
+        "booked": 150,
+        "description": "Exploring the evolution of digital transactions."
+    }
+]

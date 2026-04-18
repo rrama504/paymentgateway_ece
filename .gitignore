@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+firebase-key.json
+
+# Node
+node_modules/
+dist/
+.eslintcache
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
