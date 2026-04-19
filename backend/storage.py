@@ -11,7 +11,7 @@ from typing import Any
 
 
 DEFAULT_CONFIG = {
-    "eventName": "IV ECE 2026 HYD",
+    "eventName": "IV ECE 2026 BLR",
     "ticketPrice": 3000,
     "upiId": "roouff@ptyes",
     "payeeName": "Event Organizer",
