@@ -110,18 +110,21 @@ export default function RegistrationForm({ onRegistered, onAdmin }) {
         <div className="reg-header">
           <div className="badge">📢 Important Update</div>
           <h1 className="reg-title">Booking Closed</h1>
-          <p className="reg-subtitle">Booking for both Bangalore and Hyderabad has now closed.</p>
+          <p className="reg-subtitle">Registrations for both the Bangalore and Hyderabad trips are now closed.</p>
         </div>
 
         <div className="message-body" style={{ textAlign: "center", padding: "1rem 0", lineHeight: 1.75 }}>
           <p style={{ marginBottom: "1rem" }}>
-            If you have any pending transactions or payments, please contact <strong>RamaKrishna</strong>.
+            For any pending payments, transaction-related issues, or incomplete registrations, please contact <strong>RamaKrishna – 8688423718</strong>.
           </p>
           <p style={{ marginBottom: "1rem" }}>
-            For any other trip-related queries, please reach out to <strong>Avinash</strong>, <strong>Mukesh</strong>, and <strong>Arjun</strong>.
+            For queries regarding the trip or its execution, please reach out to:<br />
+            <strong>Avinash – 8500113117</strong><br />
+            <strong>Mukesh – 9989145666</strong><br />
+            <strong>Arjun – 9989743999</strong>
           </p>
           <p style={{ marginTop: "1.5rem", fontWeight: 700, color: "#0f766e" }}>
-            Let’s make this trip awesome!
+            Please note that the Wonderla payment window will open shortly.
           </p>
         </div>
       </div>
