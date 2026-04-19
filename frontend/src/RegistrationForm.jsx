@@ -126,7 +126,7 @@ export default function RegistrationForm({ onRegistered, onAdmin }) {
             justifyContent: "center",
             gap: "5px"
           }}>
-            📍 HYD
+            📍 BLR
           </div>
           <p className="reg-subtitle">Fill in your details to secure a seat</p>
         </div>
