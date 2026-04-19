@@ -126,6 +126,38 @@ def export_confirmed_payments_csv(tokens: list[dict[str, Any]], csv_path: str | 
             writer.writerow(confirmed_payment_row(token))
 
 
+def export_confirmed_payments_excel(tokens: list[dict[str, Any]], xlsx_path: str | Path) -> None:
+    """Write all confirmed tokens to an Excel workbook (same columns as the CSV export)."""
+    from openpyxl import Workbook
+
+    path = Path(xlsx_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    confirmed_tokens = sorted(
+        (normalize_token(token) for token in tokens if token.get("status") == "confirmed"),
+        key=lambda token: token["token_id"],
+    )
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Confirmed payments"
+    sheet.append(
+        [
+            "Token Number",
+            "Name",
+            "Roll Number",
+            "Phone Number",
+            "Section",
+            "Time of Payment",
+            "UTR Number",
+        ]
+    )
+    for token in confirmed_tokens:
+        sheet.append(confirmed_payment_row(token))
+
+    workbook.save(path)
+
+
 class BaseStorage:
     backend_name = "base"
 

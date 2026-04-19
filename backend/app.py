@@ -15,6 +15,7 @@ from storage import (
     SoldOutError,
     create_storage,
     export_confirmed_payments_csv,
+    export_confirmed_payments_excel,
 )
 
 try:
@@ -26,6 +27,7 @@ except ImportError:  # pragma: no cover - optional during first install
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIST_DIR = BASE_DIR.parent / "frontend" / "dist"
 CSV_FILE = BASE_DIR / "confirmed_payments.csv"
+EXCEL_FILE = BASE_DIR / "confirmed_payments.xlsx"
 
 if load_dotenv:
     load_dotenv(BASE_DIR.parent / ".env")
@@ -36,7 +38,15 @@ CORS(app)
 
 storage = create_storage(BASE_DIR)
 storage.ensure_seed_data()
-export_confirmed_payments_csv(storage.list_tokens(), CSV_FILE)
+
+
+def refresh_confirmed_exports() -> None:
+    tokens = storage.list_tokens()
+    export_confirmed_payments_csv(tokens, CSV_FILE)
+    export_confirmed_payments_excel(tokens, EXCEL_FILE)
+
+
+refresh_confirmed_exports()
 
 ADMIN_USER = os.getenv("ADMIN_USER", "Ramakrishna")
 ADMIN_PASS = os.getenv("ADMIN_PASS", "AMXPG_234")
@@ -187,11 +197,11 @@ def confirm_payment():
     except NotFoundError as exc:
         abort(404, description=str(exc))
 
-    export_confirmed_payments_csv(storage.list_tokens(), CSV_FILE)
+    refresh_confirmed_exports()
 
     return jsonify(
         {
-            "message": "Payment confirmed and saved to CSV",
+            "message": "Payment confirmed and saved to CSV and Excel",
             "token_id": token_id,
             "status": "confirmed",
         }
@@ -211,7 +221,7 @@ def reject_payment():
     except NotFoundError as exc:
         abort(404, description=str(exc))
 
-    export_confirmed_payments_csv(storage.list_tokens(), CSV_FILE)
+    refresh_confirmed_exports()
 
     return jsonify({"message": "Payment rejected", "token_id": token_id, "status": "available"})
 
