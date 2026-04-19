@@ -106,160 +106,25 @@ export default function RegistrationForm({ onRegistered, onAdmin }) {
       <div className="blob blob-1" />
       <div className="blob blob-2" />
 
-      {!config ? (
-        <div style={{ zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
-          <span className="spinner" style={{ width: "2rem", height: "2rem" }}></span>
-        </div>
-      ) : (
-      <div className="reg-card">
-        {/* Header */}
+      <div className="reg-card reg-card--message">
         <div className="reg-header">
-          <div className="badge">🎟️ Event Registration</div>
-          <h1 className="reg-title">{config.eventName}</h1>
-          <div style={{ 
-            color: "#f59e0b", 
-            fontSize: "1.1rem", 
-            fontWeight: "700", 
-            marginTop: "0.5rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "5px"
-          }}>
-            📍 BLR
-          </div>
-          <p className="reg-subtitle">Fill in your details to secure a seat</p>
+          <div className="badge">📢 Important Update</div>
+          <h1 className="reg-title">Booking Closed</h1>
+          <p className="reg-subtitle">Booking for both Bangalore and Hyderabad has now closed.</p>
         </div>
 
-        {/* Seat counter */}
-        <div className={`seats-pill ${soldOut ? "seats-pill--out" : ""}`}>
-          <span className="seats-text" style={{ fontSize: "1.1rem", fontWeight: "600" }}>
-            {seatsLeft === null ? "–" : seatsLeft} seats remaining
-          </span>
-          <button className="refresh-btn" onClick={fetchSeats} title="Refresh">↻</button>
+        <div className="message-body" style={{ textAlign: "center", padding: "1rem 0", lineHeight: 1.75 }}>
+          <p style={{ marginBottom: "1rem" }}>
+            If you have any pending transactions or payments, please contact <strong>RamaKrishna</strong>.
+          </p>
+          <p style={{ marginBottom: "1rem" }}>
+            For any other trip-related queries, please reach out to <strong>Avinash</strong>, <strong>Mukesh</strong>, and <strong>Arjun</strong>.
+          </p>
+          <p style={{ marginTop: "1.5rem", fontWeight: 700, color: "#0f766e" }}>
+            Let’s make this trip awesome!
+          </p>
         </div>
-
-        {soldOut && (
-          <div className="sold-out-banner">
-            🚫 Registration Closed — All 43 seats have been filled.
-          </div>
-        )}
-
-        {!soldOut && (
-          <form onSubmit={handleSubmit} noValidate>
-            {/* Name */}
-            <div className="field">
-              <label className="field-label" htmlFor="f-name">Full Name</label>
-              <input
-                id="f-name"
-                className={`field-input ${errors.name ? "field-input--err" : ""}`}
-                type="text"
-                placeholder="e.g. Ravi Kumar"
-                value={form.name}
-                onChange={handleChange("name")}
-              />
-              {errors.name && <p className="field-err">{errors.name}</p>}
-            </div>
-
-            {/* Roll number */}
-            <div className="field">
-              <label className="field-label" htmlFor="f-roll">Roll Number</label>
-              <input
-                id="f-roll"
-                className={`field-input ${errors.roll ? "field-input--err" : ""}`}
-                type="text"
-                placeholder="e.g. 2023CS101"
-                value={form.roll}
-                onChange={handleChange("roll")}
-              />
-              {errors.roll && <p className="field-err">{errors.roll}</p>}
-            </div>
-
-            {/* Phone + Section side by side */}
-            <div className="field-row">
-              <div className="field">
-                <label className="field-label" htmlFor="f-phone">Phone Number</label>
-                <input
-                  id="f-phone"
-                  className={`field-input ${errors.phone ? "field-input--err" : ""}`}
-                  type="tel"
-                  placeholder="e.g. 9876543210"
-                  value={form.phone}
-                  onChange={handleChange("phone")}
-                />
-                {errors.phone && <p className="field-err">{errors.phone}</p>}
-              </div>
-
-              <div className="field">
-                <label className="field-label" htmlFor="f-section">Section</label>
-                <select
-                  id="f-section"
-                  className={`field-input field-select ${errors.section ? "field-input--err" : ""}`}
-                  value={form.section}
-                  onChange={handleChange("section")}
-                >
-                  <option value="">Select…</option>
-                  {SECTIONS.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-                {errors.section && <p className="field-err">{errors.section}</p>}
-              </div>
-            </div>
-
-            {/* Gender + Age side by side */}
-            <div className="field-row">
-              <div className="field">
-                <label className="field-label" htmlFor="f-gender">Gender</label>
-                <select
-                  id="f-gender"
-                  className={`field-input field-select ${errors.gender ? "field-input--err" : ""}`}
-                  value={form.gender}
-                  onChange={handleChange("gender")}
-                >
-                  <option value="">Select…</option>
-                  {GENDERS.map((g) => (
-                    <option key={g} value={g}>{g}</option>
-                  ))}
-                </select>
-                {errors.gender && <p className="field-err">{errors.gender}</p>}
-              </div>
-
-              <div className="field">
-                <label className="field-label" htmlFor="f-age">Age</label>
-                <input
-                  id="f-age"
-                  className={`field-input ${errors.age ? "field-input--err" : ""}`}
-                  type="number"
-                  min="1"
-                  max="120"
-                  placeholder="21"
-                  value={form.age}
-                  onChange={handleChange("age")}
-                />
-                {errors.age && <p className="field-err">{errors.age}</p>}
-              </div>
-            </div>
-
-            {/* Ticket price */}
-            <div className="price-tag">
-              Ticket Price: <strong>₹{config.ticketPrice}</strong>
-            </div>
-
-            {apiError && <div className="alert-error">{apiError}</div>}
-
-            <button className="submit-btn" type="submit" disabled={loading}>
-              {loading ? <span className="spinner" /> : "Proceed to Payment →"}
-            </button>
-
-            <p className="disclaimer">
-              A 5-minute payment window opens after submission.
-            </p>
-          </form>
-        )}
-
       </div>
-      )}
     </div>
   );
 }
