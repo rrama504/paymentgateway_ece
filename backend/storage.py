@@ -183,6 +183,8 @@ class LocalStorage(BaseStorage):
         if config is None:
             self._write_json(self.config_path, DEFAULT_CONFIG)
 
+        # tokens.json is the live database for the local backend: keep it committed in git
+        # (do not gitignore it) so confirmed payments survive clone/pull/deploy on a new disk.
         tokens = self._read_json(self.tokens_path, None)
         if tokens is None:
             self._write_json(self.tokens_path, build_default_tokens())

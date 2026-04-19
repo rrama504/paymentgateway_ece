@@ -88,11 +88,11 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
   const progress = (secondsLeft / config.lockDurationSeconds) * 100;
   const progressColor = progress > 50 ? "#22c55e" : progress > 20 ? "#f59e0b" : "#ef4444";
 
+  // Token IDs are EVENT-### (e.g. EVENT-013). Alternate QR/UPI applies only to seat 13.
   const tokenNumber = Number.parseInt((tokenId || "").split("-").pop() || "", 10);
-  const qrImageSrc = Number.isFinite(tokenNumber) && tokenNumber > 25 ? "/QR2.jpeg" : "/QR.jpeg";
-  const effectiveUpiId = Number.isFinite(tokenNumber) && tokenNumber > 25
-    ? "arjun.kondala2005@okaxis"
-    : config.upiId;
+  const useArjunQr = Number.isFinite(tokenNumber) && tokenNumber === 13;
+  const qrImageSrc = useArjunQr ? "/QR2.jpeg" : "/QR.jpeg";
+  const effectiveUpiId = useArjunQr ? "arjun.kondala2005@okaxis" : config.upiId;
   const upiLink = `upi://pay?pa=${effectiveUpiId}&pn=${encodeURIComponent(config.payeeName)}&am=${config.ticketPrice}&tn=${tokenId}`;
 
   if (expired) {
