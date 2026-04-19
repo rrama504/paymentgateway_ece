@@ -93,7 +93,7 @@ export default function PaymentPage({ tokenId, lockTime, userDetails, onExpired,
   const useArjunQr =
     Number.isFinite(tokenNumber) && tokenNumber >= 13 && tokenNumber <= 43;
   const qrImageSrc = useArjunQr ? "/QR2.jpeg" : "/QR.jpeg";
-  const effectiveUpiId = useArjunQr ? "arjun.kondala2005@okaxis" : config.upiId;
+  const effectiveUpiId = useArjunQr ? "bapatumukeshreddy@okaxis" : config.upiId;
   const upiLink = `upi://pay?pa=${effectiveUpiId}&pn=${encodeURIComponent(config.payeeName)}&am=${config.ticketPrice}&tn=${tokenId}`;
 
   if (expired) {
